@@ -22,6 +22,6 @@ do
 	m=${i%T*}
 	m=${n#"${n%_*}_"}
 		date
-		gpt /shared/Training/LAND06_UrbanClassification_Germany/AuxData/myGraph_gpt.xml -Pinput1=i -Pinput2=j -Poutput="$Path_output$cor$n$undsc"
+		gpt /shared/Training/LAND06_UrbanClassification_Germany/AuxData/myGraph_gpt.xml -Pinput1=i -Pinput2=j -Poutput="$Path_output$cor$n$undsc$m"
 		date
 done
