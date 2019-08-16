@@ -1,27 +1,28 @@
 #!/bin/bash
 
 # 1 - Define path variables
-Path_input1=/shared/Training/LAND06_UrbanClassification_Germany/Original/Input1
-Path_input2=/shared/Training/LAND06_UrbanClassification_Germany/Original/Input2
-Path_output=/shared/Training/LAND06_UrbanClassification_Germany/Processing/
+Sar_input=/home/pedro/RUS/LAND06/Input/
+Sar_list=/home/pedro/RUS/LAND06/
+Path_output=/home/pedro/RUS/LAND06/Processing/
 
-# 2-Define name of variables
-oldEnd=.zip
+# 2 Define name of variables
 cor=Coherence_
-undsc=_
+undsc=_ 
 
-#3 Extract Data and Run GPT
-for i in $(ls -d -1 $Path_input1$S1A*.zip)
-do
-	for j in $(ls -d -1 $Path_input2$S1A*.zip)
-	do
-	n=${i%.*}
-	n=${i%T*}
-	n=${n#"${n%_*}_"}
-	m=${i%.*}
-	m=${i%T*}
-	m=${n#"${n%_*}_"}
-		date
-		gpt /shared/Training/LAND06_UrbanClassification_Germany/AuxData/myGraph_gpt.xml -Pinput1=i -Pinput2=j -Poutput="$Path_output$cor$n$undsc$m"
-		date
+# 3 Extract list, path of files and dates
+ls -d -1 $Sar_input$S1*.zip > $Sar_list/sar_list.txt
+cut -f 6 -d '_' $Sar_list/sar_list.txt > $Sar_list/aux_date.txt
+cut -f 1 -d 'T' $Sar_list/aux_date.txt > $Sar_list/date_list.txt
+count=`wc -l < $Sar_list/date_list.txt`
+a=1; b=2
+
+# 4 Extract specific lines of path from sar list and date list for execution of gpt 
+for n in $(seq 1 $((count/2))); do
+ i=`sed -n "${a}p" $Sar_list/sar_list.txt`; j=`sed -n "${b}p" $Sar_list/sar_list.txt`
+ id=`sed -n "${a}p" $Sar_list/date_list.txt`; jd=`sed -n "${b}p" $Sar_list/date_list.txt`
+ date
+ gpt /home/pedro/RUS/LAND06/myGraph.xml -Pinput2=$j -Pinput1=$i -Poutput="$Path_output$cor$id$undsc$jd"
+ date
+ a=$((a+2))
+ b=$((b+2))  
 done
