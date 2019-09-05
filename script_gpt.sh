@@ -9,7 +9,10 @@ Path_output=/home/pedro/RUS/LAND06/Processing/
 cor=Coherence_
 undsc=_ 
 
-# 3 Extract list, path of files and dates
+# 3 Extract list, path of files and dates (please note that you have to change the number after the option <<-f>>, 
+# in the 'cut' function, for this example the number <<6>>, accordingly to the length of your path string where it will be the <<_>> 
+# underscore character. As an advice test the result with a sigle comamand line just to see what happens, 
+# after appyling the 'cut' function to the pathe with the file of interest.
 ls -d -1 $Sar_input$S1*.zip > $Sar_list/sar_list.txt
 cut -f 6 -d '_' $Sar_list/sar_list.txt > $Sar_list/aux_date.txt
 cut -f 1 -d 'T' $Sar_list/aux_date.txt > $Sar_list/date_list.txt
